@@ -1,7 +1,4 @@
-package com.dynacore.testing123.entity;
-
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
-
+package com.dynacore.opencity.entity.jsonrepresentations;
 
 public class ParkeerLocatieTop {
 	private ParkeerLocatie parkeerlocatie;

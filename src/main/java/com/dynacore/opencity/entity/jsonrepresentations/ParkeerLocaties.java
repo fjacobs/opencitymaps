@@ -1,9 +1,7 @@
-package com.dynacore.testing123.entity;
+package com.dynacore.opencity.entity.jsonrepresentations;
 
 import java.util.List;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
 public class ParkeerLocaties {
 	public List<ParkeerLocatieTop> parkeerlocaties;
 

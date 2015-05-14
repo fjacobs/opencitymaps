@@ -5,27 +5,25 @@ import org.springframework.stereotype.Component;
 @SuppressWarnings("unused")
 public class Parking {
 	
-	private int capacity;
-	private int availableSpots;
+	private String name;
+	private String gps;
 	
-	public Parking(int capacity) {
-		this.capacity = capacity;
-		availableSpots = -1;
+	public Parking(String name, String gps) {
+		super();
+		this.name = name;
+		this.gps = gps;
 	}
 	
-	public int getCapacity() {
-		return capacity;
+	public String getName() {
+		return name;
 	}
-	
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
-	public int getAvailableSpots() {
-		return availableSpots;
+	public String getGps() {
+		return gps;
 	}
-	
-	public void setAvailableSpots(int availableSpots) {
-		this.availableSpots = availableSpots;
+	public void setGps(String gps) {
+		this.gps = gps;
 	}
 }

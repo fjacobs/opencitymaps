@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.dynacore.testing123.entity.Coordinates;
-import com.dynacore.testing123.entity.ParkeerLocatie;
-import com.dynacore.testing123.entity.ParkeerLocatieTop;
-import com.dynacore.testing123.entity.ParkeerLocaties;
+import com.dynacore.opencity.entity.jsonrepresentations.ParkeerLocatieTop;
+import com.dynacore.opencity.entity.jsonrepresentations.ParkeerLocaties;
+import com.dynacore.testing123.entity.PR;
+import com.dynacore.testing123.entity.Parking;
 
 /*
  * type:
@@ -24,41 +24,53 @@ import com.dynacore.testing123.entity.ParkeerLocaties;
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Controller
 public class ParkingLocationController {
-
-	@RequestMapping(value = "/parkinglocationcontroller")
+		
+	List<Parking> parkingLocationList;
+	
+	
+	
+	/*
+	 * 	Laad eenmalig alle parkeerplaats lijsten
+	 */	
+	@RequestMapping(value = "/parkinglocationsinit")
 	@ResponseBody
-	public String getParkingLocations() {
-		String result = "nr of parkings";
-
+	public List<Parking> ParkingLocationsInit() {
 		RestTemplate restTemplate = new RestTemplate();
 		System.out.println("printdebug 1");
 		ParkeerLocaties topArray;
-		try {
-			topArray = restTemplate.getForObject("http://www.amsterdamopendata.nl/files/ivv/parkeren/locaties.json",
-												 ParkeerLocaties.class);
-			System.out.println(topArray.parkeerlocaties.size());
-			result += topArray.parkeerlocaties.size();
-
+		
+		parkingLocationList = new ArrayList<Parking>(); 
+		
+		try {			
+			//XXX: refactoren naar Service object..
+			
+			topArray = restTemplate.getForObject("http://www.amsterdamopendata.nl/files/ivv/parkeren/locaties.json", ParkeerLocaties.class);
 			List<ParkeerLocatieTop> x = topArray.getParkeerLocaties();
 			
 			 for (int i = 0; i < x.size(); i++) {
 			     String title = x.get(i).getParkeerlocatie().getTitle();
+			     String gps = x.get(i).getParkeerlocatie().getLocatie();
+			    
+			     //Parse and Reverse gps lat lon.
+			     String tempLat = gps.substring(gps.indexOf("[") + 1);
+			     String lat = tempLat.substring(0,tempLat.indexOf(","));
+			     String lon = tempLat.substring(tempLat.indexOf(",") + 1);
+
+			     lon = lon.substring(0, lon.indexOf("]"));
+			     gps = lon + ", " + lat;
+     
 			     System.out.println("name:" + title);
-			   //  List<Coordinates> coordinates = x.get(i).getParkeerlocatie().getLocatie().getCoordinates();
-
-			 }							
-
+			     System.out.println("gps:" + gps);	
+			     
+			     if( x.get(i).getParkeerlocatie().getType().equals("P+R") ) {
+				     parkingLocationList.add(new PR(title,gps));
+			     }			     
+			     //List<Coordinates> coordinates = x.get(i).getParkeerlocatie().getLocatie().getCoordinates();
+			 }
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		System.out.println("printdebug 2");
-
-		// // System.out.println("Name:    " + page.getName());
-		// // System.out.println("About:   " + page.getAbout());
-		// // System.out.println("Phone:   " + page.getPhone());
-		// // System.out.println("Website: " + page.getWebsite());
-		//
-		return result;
+		return parkingLocationList;
 	}
-
 }
+	
