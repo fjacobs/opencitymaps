@@ -22,7 +22,7 @@ public class TrafficJamController {
 	
 	
 	
-	//Delete this.. This function is used for testing..
+	//This function can used for testing two way databinding..
 	//example: http://localhost:777/mymvc/method9?id=1
 	@RequestMapping(value="/setStatus")
 	@ResponseBody

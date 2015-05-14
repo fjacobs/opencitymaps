@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.dynacore.testing123.entity.Parking;
 
-
+@SuppressWarnings("unused")
 @Controller
 public class ParkingController {
 
