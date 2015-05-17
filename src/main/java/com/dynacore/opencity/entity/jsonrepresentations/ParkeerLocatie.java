@@ -2,7 +2,6 @@ package com.dynacore.opencity.entity.jsonrepresentations;
 
 import java.util.List;
 
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 
 public class ParkeerLocatie {

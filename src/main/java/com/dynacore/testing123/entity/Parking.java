@@ -9,7 +9,6 @@ public class Parking {
 	private String gps;
 	
 	public Parking(String name, String gps) {
-		super();
 		this.name = name;
 		this.gps = gps;
 	}
