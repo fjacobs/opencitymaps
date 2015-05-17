@@ -30,12 +30,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Controller
 public class ParkingLocationController {
 	
-//	@Autowired
-	
-
-	
-	
-	
 	@RequestMapping(value = "/parkinglocationsinit")
 	@ResponseBody
 	public List<Parking> ParkingLocationsInit() {
@@ -43,16 +37,11 @@ public class ParkingLocationController {
 
 		RestTemplate restTemplate = new RestTemplate();
 		ParkeerLocaties topArray;
-	//	FeatureCollection topArray;
 
-		
-		
 		parkingLocationList = new ArrayList<Parking>(); 
 		try {			
-//			System.out.println("printdebug 1");			
+	
 			topArray = restTemplate.getForObject("http://www.amsterdamopendata.nl/files/ivv/parkeren/locaties.json", ParkeerLocaties.class);
-//			System.out.println("printdebug 2");			
-//			System.out.println("SIze = " + topArray.getFeatures().size());		
 			
 			List<ParkeerLocatieTop> x = topArray.getParkeerLocaties();
 			
