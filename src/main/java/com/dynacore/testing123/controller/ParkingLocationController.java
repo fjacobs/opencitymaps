@@ -78,7 +78,6 @@ public class ParkingLocationController {
 	public FeatureCollection getParkingGeojson() {
 		RestTemplate restTemplate = new RestTemplate();
 		System.out.println("printdebug 1");
-		int retVal = 0;
 		FeatureCollection top = null;
 		
 		try {
@@ -94,7 +93,6 @@ public class ParkingLocationController {
 
 			System.out.println("Top: type" + top.getType());
 
-			retVal = 1;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

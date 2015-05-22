@@ -20,16 +20,9 @@ public class ParkingController {
 	
 	@RequestMapping(value="/x1")
 	public List<Parking> getJsonParkingList(){
-		
-//		Parking parking1 = new Parking(300);
-//		Parking parking2 = new Parking(235);
-//		Parking parking3 = new Parking(500);
-//		
-		List<Parking> parkingList = new ArrayList<Parking>();
-//		parkingList.add(parking1);
-//		parkingList.add(parking2);
-//		parkingList.add(parking3);
 			
+		List<Parking> parkingList = new ArrayList<Parking>();
+
 		return parkingList;
 	}
 	
