@@ -9,6 +9,7 @@
 
 	<context:annotation-config />
 	<!-- XXX: component scan hier inserten -->
+	<context:component-scan base-package="com.dynacore" />
 
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
@@ -24,7 +25,7 @@
 		<property name="jpaPropertyMap">
 			<map>
 				<entry key="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect"/>
-				<entry key="hibernate.hbm2ddl.auto" value="create"/>
+				<entry key="hibernate.hbm2ddl.auto" value="update"/>
 				<entry key="hibernate.format_sql" value="true"/>							
 			</map>
 		</property>	
@@ -34,7 +35,7 @@
 		<property name="entityManagerFactory" ref="entityManagerFactory"/>		
 	</bean>	
 	
-	<tx:annotation-driven transaction-manager="transactionMager"/>
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 	
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"/>

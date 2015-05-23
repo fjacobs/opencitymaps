@@ -3,6 +3,7 @@ package com.dynacore.mymvc.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -15,13 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import com.dynacore.livemap.entity.hibernate.ParkingLogData;
 import com.dynacore.livemap.entity.jsonrepresentations.FeatureCollection;
 import com.dynacore.livemap.service.ParkingPlaceService;
-import com.dynacore.livemap.service.ParkingPlaceServiceImpl;
 
 @Controller
 public class ParkingPlaceController {
 
-	//@Autowired  XXX: werkt niet
-	ParkingPlaceService parkingPlaceService = new ParkingPlaceServiceImpl();
+	@Autowired 
+	ParkingPlaceService parkingPlaceService;
 	
 	@RequestMapping (value = "/x1")
 	public String sayHello(Model model) {
@@ -58,14 +58,15 @@ public class ParkingPlaceController {
 	}
 
 	public void parseFeatureCollection(FeatureCollection fc){
-		//for(int i=1; i < fc.getFeatures().size(); i++){
-			int i=1;
-			System.out.println(fc.getFeatures().get(i).getProperties().getFreeSpaceLong());
+		for(int i=0; i < fc.getFeatures().size(); i++){
 			System.out.println(fc.getFeatures().get(i).getProperties().getName());
+			System.out.println(fc.getFeatures().get(i).getProperties().getPubDate()); //omzetten naar unix ts
+			System.out.println(fc.getFeatures().get(i).getProperties().getType()); 
+			System.out.println(fc.getFeatures().get(i).getProperties().getState());
+			System.out.println(fc.getFeatures().get(i).getProperties().getFreeSpaceLong());
 			System.out.println(fc.getFeatures().get(i).getProperties().getFreeSpaceShort());
 			System.out.println(fc.getFeatures().get(i).getProperties().getLongCapacity());
 			System.out.println(fc.getFeatures().get(i).getProperties().getShortCapacity());
-			System.out.println(fc.getFeatures().get(i).getProperties().getPubDate()); //omzetten naar unix ts
 			
 			ParkingLogData property = new ParkingLogData(
 					fc.getFeatures().get(i).getProperties().getName(),
@@ -76,10 +77,10 @@ public class ParkingPlaceController {
 					fc.getFeatures().get(i).getProperties().getFreeSpaceLong(), 
 					fc.getFeatures().get(i).getProperties().getShortCapacity(), 
 					fc.getFeatures().get(i).getProperties().getLongCapacity()
-					);
+			);
 			
 			parkingPlaceService.save(property);				
-	//	}
+		}
 	}
 	
 }

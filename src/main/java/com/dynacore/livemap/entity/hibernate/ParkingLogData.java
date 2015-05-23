@@ -3,11 +3,15 @@ package com.dynacore.livemap.entity.hibernate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="parkingLogData")
 public class ParkingLogData {
 	
 		@Id
+		@GeneratedValue
+		private long id;
 		private String Name;
 		private String PubDate;
 		private String Type;
@@ -32,6 +36,14 @@ public class ParkingLogData {
 			LongCapacity = longCapacity;
 		}
 		
+		public long getId() {
+			return id;
+		}
+
+		public void setId(long id) {
+			this.id = id;
+		}
+
 		public String getName() {
 			return Name;
 		}

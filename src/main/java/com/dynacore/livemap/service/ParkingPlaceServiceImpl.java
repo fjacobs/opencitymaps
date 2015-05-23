@@ -1,5 +1,6 @@
 package com.dynacore.livemap.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +12,8 @@ import com.dynacore.livemap.repository.ParkingPlaceRepositoryImpl;
 @Service("parkingPlaceService")
 public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 	
-	//@Autowired XXX fixen
-	private ParkingPlaceRepository parkingPlaceRepository = new ParkingPlaceRepositoryImpl() ;
+	@Autowired 
+	private ParkingPlaceRepository parkingPlaceRepository;
 	
 	@Transactional
 	public ParkingLogData save(ParkingLogData parkingPlace) {
