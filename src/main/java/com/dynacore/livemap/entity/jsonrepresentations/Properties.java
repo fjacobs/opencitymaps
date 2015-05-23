@@ -1,4 +1,4 @@
-package com.dynacore.trafficlink.entity.jsonrepresentations;
+package com.dynacore.livemap.entity.jsonrepresentations;
 
 public class Properties {
 	

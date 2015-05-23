@@ -1,4 +1,4 @@
-package com.dynacore.testing123.controller;
+package com.dynacore.livemap.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;

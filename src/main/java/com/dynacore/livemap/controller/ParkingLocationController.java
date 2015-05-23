@@ -1,4 +1,4 @@
-package com.dynacore.testing123.controller;
+package com.dynacore.livemap.controller;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
+import com.dynacore.livemap.entity.hibernate.ParkingPlace;
+import com.dynacore.livemap.entity.jsonrepresentations.FeatureCollection;
+import com.dynacore.livemap.service.ParkingPlaceService;
 import com.dynacore.opencity.entity.jsonrepresentations.ParkeerLocatieTop;
 import com.dynacore.opencity.entity.jsonrepresentations.ParkeerLocaties;
 import com.dynacore.testing123.entity.PR;
 import com.dynacore.testing123.entity.Parking;
-import com.dynacore.trafficlink.entity.jsonrepresentations.FeatureCollection;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 /*
@@ -30,6 +32,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @Controller
 public class ParkingLocationController {
 	
+	@Autowired
+	private ParkingPlaceService parkingPlaceService;
+		
 	@RequestMapping(value = "/parkinglocationsinit")
 	@ResponseBody
 	public List<Parking> ParkingLocationsInit() {
@@ -63,7 +68,7 @@ public class ParkingLocationController {
 			     if( x.get(i).getParkeerlocatie().getType().equals("P+R") ) {
 				     parkingLocationList.add(new PR(title,gps));
 			     }			     			     
-			//     List<Coordinates> coordinates = x.get(i).getParkeerlocatie().getLocatie().getCoordinates();
+			     //List<Coordinates> coordinates = x.get(i).getParkeerlocatie().getLocatie().getCoordinates();
 			 }
 
 		} catch (Exception e) {
@@ -90,7 +95,7 @@ public class ParkingLocationController {
 			messageConverters.add(jacksonMessageConverter);		
 			restTemplate.getMessageConverters().add(jacksonMessageConverter);
 			top = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
-
+			
 			System.out.println("Top: type" + top.getType());
 
 		} catch (Exception e) {
@@ -99,7 +104,23 @@ public class ParkingLocationController {
 		return top;
 	}
 	
+	public void updateParkingPlace(ParkingPlace parkingPlace) {		
+		parkingPlaceService.save(parkingPlace);
+	}
 	
-	
+
 }
 	
+
+
+
+
+
+
+
+
+
+
+
+
+
