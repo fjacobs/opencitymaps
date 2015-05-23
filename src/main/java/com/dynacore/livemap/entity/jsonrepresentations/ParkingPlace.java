@@ -1,13 +1,6 @@
 package com.dynacore.livemap.entity.jsonrepresentations;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-
-
 public class ParkingPlace {
-
-	private long idKey;
 
 	private String Id;
 
@@ -25,10 +18,6 @@ public class ParkingPlace {
 		return Id;
 	}
 
-	public long getIdKey() {
-		return idKey;
-	}
-
 	public Properties getProperties() {
 		return properties;
 	}
@@ -43,10 +32,6 @@ public class ParkingPlace {
 
 	public void setId(String id) {
 		Id = id;
-	}
-
-	public void setIdKey(long idKey) {
-		this.idKey = idKey;
 	}
 
 	public void setProperties(Properties properties) {

@@ -5,7 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class Properties {
+public class ParkingLogData {
 	
 		@Id
 		private String Name;
@@ -16,6 +16,21 @@ public class Properties {
 		private String FreeSpaceLong;
 		private String ShortCapacity;
 		private String LongCapacity;
+				
+		public ParkingLogData(){};
+		
+		public ParkingLogData(String name, String pubDate, String type,
+				String state, String freeSpaceShort, String freeSpaceLong,
+				String shortCapacity, String longCapacity) {
+			Name = name;
+			PubDate = pubDate;
+			Type = type;
+			State = state;
+			FreeSpaceShort = freeSpaceShort;
+			FreeSpaceLong = freeSpaceLong;
+			ShortCapacity = shortCapacity;
+			LongCapacity = longCapacity;
+		}
 		
 		public String getName() {
 			return Name;

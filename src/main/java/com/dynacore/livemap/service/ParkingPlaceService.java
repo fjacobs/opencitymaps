@@ -1,10 +1,10 @@
 package com.dynacore.livemap.service;
 
-import com.dynacore.livemap.entity.hibernate.ParkingPlace;
+import com.dynacore.livemap.entity.hibernate.ParkingLogData;
 
 public interface ParkingPlaceService {
 
-	ParkingPlace save(ParkingPlace parkingPlace);
+	ParkingLogData save(ParkingLogData parkingPlace);
 }
 
 

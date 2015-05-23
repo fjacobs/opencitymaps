@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.dynacore.livemap.entity.hibernate.ParkingPlace;
+import com.dynacore.livemap.entity.hibernate.ParkingLogData;
 import com.dynacore.livemap.entity.jsonrepresentations.FeatureCollection;
 import com.dynacore.livemap.service.ParkingPlaceService;
 import com.dynacore.opencity.entity.jsonrepresentations.ParkeerLocatieTop;
@@ -78,7 +78,7 @@ public class ParkingLocationController {
 	}
 	
 	
-	@RequestMapping(value = "/x2")
+	@RequestMapping(value = "/x6")
 	@ResponseBody
 	public FeatureCollection getParkingGeojson() {
 		RestTemplate restTemplate = new RestTemplate();
@@ -96,16 +96,20 @@ public class ParkingLocationController {
 			restTemplate.getMessageConverters().add(jacksonMessageConverter);
 			top = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
 			
+			for(int i=0; i < top.getFeatures().size(); i++){
+//				top.getFeatures().get(i).getProperties().;
+			}
+			
 			System.out.println("Top: type" + top.getType());
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return top;
 	}
 	
-	public void updateParkingPlace(ParkingPlace parkingPlace) {		
-		parkingPlaceService.save(parkingPlace);
+	public void updateParkingPlaces(ParkingLogData logData) {		
+		parkingPlaceService.save(logData);
 	}
 	
 
