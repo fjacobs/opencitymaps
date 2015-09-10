@@ -1,4 +1,4 @@
-package com.dynacore.livemap.entity.jsonrepresentations;
+package com.dynacore.livemap.entity.jsonrepresentations.parking;
 
 public class ParkingPlace {
 
@@ -9,6 +9,7 @@ public class ParkingPlace {
 	private Geometry geometry;
 	
 	private Properties properties;
+	
 
 	public Geometry getGeometry() {
 		return geometry;

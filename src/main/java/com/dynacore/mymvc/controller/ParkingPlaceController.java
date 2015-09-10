@@ -2,6 +2,9 @@ package com.dynacore.mymvc.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -12,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 
-import com.dynacore.livemap.entity.jsonrepresentations.FeatureCollection;
+import com.dynacore.livemap.entity.jsonrepresentations.parking.FeatureCollection;
 import com.dynacore.livemap.service.ParkingPlaceService;
 
 @Controller
@@ -20,41 +23,14 @@ public class ParkingPlaceController {
 
 	@Autowired 
 	ParkingPlaceService parkingPlaceService;
+	FeatureCollection top;
 	
-	
-	public ParkingPlaceController() {
-
-	}
-	
-	
-	//Returns resttemplate that supports different mediatypes	
-	private RestTemplate createRestTemplate() {
-		RestTemplate restTemplate = new RestTemplate();
-		MappingJackson2HttpMessageConverter jacksonMessageConverter = new MappingJackson2HttpMessageConverter();			
-		List<MediaType> supportedMediaTypes = new ArrayList<MediaType>(); 
-		supportedMediaTypes.add(MediaType.ALL);			
-		jacksonMessageConverter.setSupportedMediaTypes(supportedMediaTypes);			
-		List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>>(); 
-		messageConverters.add(jacksonMessageConverter);		
-		restTemplate.getMessageConverters().add(jacksonMessageConverter);
-		return restTemplate;
-	}
-	
-	
-	@RequestMapping(value = "/getparkingdata")
-	@ResponseBody
-	public FeatureCollection getParkingGeojson() {
-		RestTemplate restTemplate = createRestTemplate();
-		FeatureCollection top = null;
+	public ParkingPlaceController() { }
 		
-		try {
-			top = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
-			parkingPlaceService.saveCollection(top);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return top;
+	@RequestMapping(value = "getCustomParkingJson")
+	@ResponseBody
+	public FeatureCollection getCustomParkingJson() {
+		return parkingPlaceService.getProcessedJson();
 	}
-	
+ 
 }

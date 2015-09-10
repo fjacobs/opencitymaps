@@ -1,4 +1,4 @@
-package com.dynacore.livemap.entity.jsonrepresentations;
+package com.dynacore.livemap.entity.jsonrepresentations.parking;
 
 public class Properties {
 	
@@ -11,6 +11,16 @@ public class Properties {
 	public String FreeSpaceLong;
 	public String ShortCapacity;
 	public String LongCapacity;
+	
+	public int Percentage;
+
+	public int getPercentage() {
+		return Percentage;
+	}
+
+	public void setPercentage(int percentage) {
+		this.Percentage = percentage;
+	}
 	
 	public String getName() {
 		return Name;
@@ -60,5 +70,7 @@ public class Properties {
 	public void setLongCapacity(String longCapacity) {
 		LongCapacity = longCapacity;
 	}
+	
+
 				
 }

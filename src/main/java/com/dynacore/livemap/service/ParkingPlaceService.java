@@ -1,13 +1,15 @@
 package com.dynacore.livemap.service;
 
 import com.dynacore.livemap.entity.hibernate.ParkingLogData;
-import com.dynacore.livemap.entity.jsonrepresentations.FeatureCollection;
+import com.dynacore.livemap.entity.jsonrepresentations.parking.FeatureCollection;
 
 public interface ParkingPlaceService {
 
-	void saveCollection(FeatureCollection fc);
+	public void saveCollection(FeatureCollection fc);
 
-	ParkingLogData save(ParkingLogData parkingPlace);
+	public ParkingLogData save(ParkingLogData parkingPlace);
+	public FeatureCollection getProcessedJson();
+	
 }
 
 
