@@ -1,13 +1,15 @@
-package com.dynacore.livemap.entity.jsonrepresentations.parking;
+package com.dynacore.livemap.entity.jsonrepresentations.filecontact;
+
+import java.util.List;
 
 import com.dynacore.livemap.entity.jsonrepresentations.Geometry;
 
-public class ParkingPlace {
+public class FileContact {
 
 	private String Id;
 	private String type;
 	private Geometry geometry;
-	private Properties properties;
+	private List<Property> properties;
 	
 	public Geometry getGeometry() {
 		return geometry;
@@ -17,9 +19,6 @@ public class ParkingPlace {
 		return Id;
 	}
 
-	public Properties getProperties() {
-		return properties;
-	}
 
 	public String getType() {
 		return type;
@@ -33,12 +32,16 @@ public class ParkingPlace {
 		Id = id;
 	}
 
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
-
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public List<Property> getProperties() {
+		return properties;
+	}
+
+	public void setProperties(List<Property> properties) {
+		this.properties = properties;
 	}
 
 }

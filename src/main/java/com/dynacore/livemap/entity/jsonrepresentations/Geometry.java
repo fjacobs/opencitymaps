@@ -1,4 +1,4 @@
-package com.dynacore.livemap.entity.jsonrepresentations.parking;
+package com.dynacore.livemap.entity.jsonrepresentations;
 
 import java.util.List;
 

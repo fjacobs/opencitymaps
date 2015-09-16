@@ -13,8 +13,7 @@ import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+
 import org.springframework.web.client.RestTemplate;
 
 import com.dynacore.livemap.entity.hibernate.ParkingLogData;
@@ -22,12 +21,39 @@ import com.dynacore.livemap.entity.jsonrepresentations.parking.FeatureCollection
 import com.dynacore.livemap.repository.ParkingPlaceRepository;
 
 
+
+
+//@Component is equivalent to
+//
+//<bean>
+//@Service, @Controller , @Repository = {@Component + some more special functionality}
+//
+//That mean Service,Controller and Repository are functionally the same.
+//
+//The three annotations are used to separate "Layers" in your application,
+//
+//Controllers just do stuff like dispatching, forwarding, calling service methods etc.
+//Service Hold business Logic, Calculations etc.
+//Repository are the DAOs(Data Access Objects), they access the database directly.
+//Now you may ask why separate them:(I assume you know AOP-Aspect Oriented Programming)
+//
+//Lets say you want to Monitors the Activity of the DAO Layer only. You will write an Aspect(A class) class that does some logging before and after every method of your DAO is invoked, you are able to do that using AOP as you have three distinct Layers and are not mixed.
+//
+//So you can do logging of DAO "around", "before" or "after" the DAO methods. You could do that because you had a DAO in the first place. What you just achieved is Separation of concerns or tasks.
+//
+//Imagine if there were only one annotation @Controller, then this component will have dispatching, business logic and accessing database all mixed, so dirty code!
+//
+//Above mentioned is one very common scenario, there are many more use cases of why to use three annotations.
+//
+
+
+
 @Service("parkingPlaceService")
 public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 	
 	@Autowired 
 	private ParkingPlaceRepository parkingPlaceRepository;
-	private FeatureCollection unprocessedJson, processedJson;
+	private FeatureCollection parkingJson;
 
 	private String latestPubdate, currentPubdate;
 	private int updateInterval = 60; 
@@ -56,10 +82,9 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 		    System.out.println("ParkingPlaceService: " + LocalDateTime.now());
 			RestTemplate restTemplate = createRestTemplate();
 						try {								
-					unprocessedJson = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
-					saveCollection(unprocessedJson);					
-					customizeJson(unprocessedJson);
-					processedJson = unprocessedJson;
+					parkingJson = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
+					saveCollection(parkingJson);					
+					customizeJson(parkingJson); //Customize Json for frontend.
 				
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -89,7 +114,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 	}
 	
 	public FeatureCollection getProcessedJson() {
-		return processedJson;
+		return parkingJson;
 	}
 		
 	@Override
@@ -116,7 +141,7 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 						fc.getFeatures().get(i).getProperties().getLongCapacity()
 				);
 				
-				//only store logdata at startup of the application or if it has changed.
+				//only store logdata at start of the application or if it has changed.
 				if( latestPubdate.isEmpty() ||  ! latestPubdate.equals( property.getPubDate() )) {				
 					save(property);
 					currentPubdate = property.getPubDate(); //TODO: Checken of currentPubdate voor latestpubdate viel.
