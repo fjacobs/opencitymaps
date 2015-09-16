@@ -79,9 +79,8 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 		  
 		  @Override		  
 		  public void run() { 
-		    System.out.println("ParkingPlaceService: " + LocalDateTime.now());
 			RestTemplate restTemplate = createRestTemplate();
-						try {								
+			try {								
 					parkingJson = restTemplate.getForObject("http://www.trafficlink-online.nl/trafficlinkdata/wegdata/IDPA_ParkingLocation.GeoJSON", FeatureCollection.class);
 					saveCollection(parkingJson);					
 					customizeJson(parkingJson); //Customize Json for frontend.
@@ -124,12 +123,8 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 
 	@Override
 	@Transactional
-	public void saveCollection(FeatureCollection fc) {
-		
-		System.out.println("Saving featurecollection: " + (System.currentTimeMillis() / 1000L));
-		
-		for(int i=0; i < fc.getFeatures().size(); i++) {
-		
+	public void saveCollection(FeatureCollection fc) {				
+		for(int i=0; i < fc.getFeatures().size(); i++) {		
 				ParkingLogData property = new ParkingLogData(
 						fc.getFeatures().get(i).getProperties().getName(),
 						fc.getFeatures().get(i).getProperties().getPubDate(), 
@@ -139,17 +134,14 @@ public class ParkingPlaceServiceImpl implements ParkingPlaceService {
 						fc.getFeatures().get(i).getProperties().getFreeSpaceLong(), 
 						fc.getFeatures().get(i).getProperties().getShortCapacity(), 
 						fc.getFeatures().get(i).getProperties().getLongCapacity()
-				);
-				
+				);				
 				//only store logdata at start of the application or if it has changed.
 				if( latestPubdate.isEmpty() ||  ! latestPubdate.equals( property.getPubDate() )) {				
 					save(property);
 					currentPubdate = property.getPubDate(); //TODO: Checken of currentPubdate voor latestpubdate viel.
 				}
-			}
-		
-			latestPubdate = currentPubdate;
-		
+			}		
+			latestPubdate = currentPubdate;		
 		}		
 	}
 

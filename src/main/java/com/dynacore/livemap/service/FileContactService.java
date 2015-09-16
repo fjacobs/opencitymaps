@@ -6,7 +6,6 @@ import com.dynacore.livemap.entity.jsonrepresentations.filecontact.FeatureCollec
 public interface FileContactService {
 
 	public void saveCollection(FeatureCollection fc);
-
 	public FileContactLogData save(FileContactLogData fileContact);
 	public FeatureCollection getProcessedJson();
 	
